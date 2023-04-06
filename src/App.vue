@@ -1,17 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import HelloWorld from './components/HelloWorld.vue'
+import Crontab from './Crontab/index.vue'
+
+const cron = ref('')
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <div class="flex p-2">
+    <label class="w-40">cron表达式：</label>
+    <el-input v-model="cron"></el-input>
+  </div> 
+  <Crontab></Crontab>
 </template>
 
 <style scoped>
