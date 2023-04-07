@@ -95,119 +95,119 @@ const radioChange = () => {
     case 1:
       emit("update", "min", "*", "min");
       break;
-      case 2:
-        emit("update", "min", cycleTotal.value, "min");
-        break;
-        case 3:
-          emit("update", "min", averageTotal.value, "min");
-          break;
-          case 4:
-            emit("update", "min", checkboxString.value, "min");
-            break;
-          }
-        };
-  // 周期两个值变化时
-  const cycleChange = () => {
-    if (radioValue.value === 2) {
+    case 2:
       emit("update", "min", cycleTotal.value, "min");
-    }
-  };
-  // 平均两个值变化时
-  const averageChange = () => {
-    if (radioValue.value === 3) {
+      break;
+    case 3:
       emit("update", "min", averageTotal.value, "min");
-    }
-  };
-  // checkbox值变化时
-  const checkboxChange = () => {
-    if (radioValue.value === 4) {
+      break;
+    case 4:
       emit("update", "min", checkboxString.value, "min");
-    }
-  };
-//=======================** watch **===================================//
-watch(radioValue,radioChange)
-watch(cycleTotal,cycleChange)
-watch(averageTotal,averageChange)
-watch(checkboxString,checkboxChange)
-  //       export default {
-  // data() {
-  //   return {
-  //     radioValue: 1,
-  //     cycle01: 1,
-  //     cycle02: 2,
-  //     average01: 0,
-  //     average02: 1,
-  //     checkboxList: [],
-  //     checkNum: this.$props.check,
-  //   };
-  // },
-  // name: "crontab-min",
-  // props: ["check", "cron"],
-  // methods: {
-  //   // 单选按钮值变化时
-  //   radioChange() {
-  //     switch (this.radioValue) {
-  //       case 1:
-  //         this.$emit("update", "min", "*", "min");
-  //         break;
-  //       case 2:
-  //         this.$emit("update", "min", this.cycleTotal, "min");
-  //         break;
-  //       case 3:
-  //         this.$emit("update", "min", this.averageTotal, "min");
-  //         break;
-  //       case 4:
-  //         this.$emit("update", "min", this.checkboxString, "min");
-  //         break;
-  //     }
-  //   },
-  //   // 周期两个值变化时
-  //   cycleChange() {
-  //     if (this.radioValue == "2") {
-  //       this.$emit("update", "min", this.cycleTotal, "min");
-  //     }
-  //   },
-  //   // 平均两个值变化时
-  //   averageChange() {
-  //     if (this.radioValue == "3") {
-  //       this.$emit("update", "min", this.averageTotal, "min");
-  //     }
-  //   },
-  //   // checkbox值变化时
-  //   checkboxChange() {
-  //     if (this.radioValue == "4") {
-  //       this.$emit("update", "min", this.checkboxString, "min");
-  //     }
-  //   },
-  // },
-  // watch: {
-  //   radioValue: "radioChange",
-  //   cycleTotal: "cycleChange",
-  //   averageTotal: "averageChange",
-  //   checkboxString: "checkboxChange",
-  // },
-  // computed: {
-  //   // 计算两个周期值
-  //   cycleTotal: function () {
-  //     const cycle01 = this.checkNum(this.cycle01, 0, 58);
-  //     const cycle02 = this.checkNum(
-  //       this.cycle02,
-  //       cycle01 ? cycle01 + 1 : 1,
-  //       59
-  //     );
-  //     return cycle01 + "-" + cycle02;
-  //   },
-  //   // 计算平均用到的值
-  //   averageTotal: function () {
-  //     const average01 = this.checkNum(this.average01, 0, 58);
-  //     const average02 = this.checkNum(this.average02, 1, 59 - average01 || 0);
-  //     return average01 + "/" + average02;
-  //   },
-  //   // 计算勾选的checkbox值合集
-  //   checkboxString: function () {
-  //     let str = this.checkboxList.join();
-  //     return str == "" ? "*" : str;
-  //   },
-  // },
+      break;
+  }
 };
+// 周期两个值变化时
+const cycleChange = () => {
+  if (radioValue.value === 2) {
+    emit("update", "min", cycleTotal.value, "min");
+  }
+};
+// 平均两个值变化时
+const averageChange = () => {
+  if (radioValue.value === 3) {
+    emit("update", "min", averageTotal.value, "min");
+  }
+};
+// checkbox值变化时
+const checkboxChange = () => {
+  if (radioValue.value === 4) {
+    emit("update", "min", checkboxString.value, "min");
+  }
+};
+//=======================** watch **===================================//
+watch(radioValue, radioChange);
+watch(cycleTotal, cycleChange);
+watch(averageTotal, averageChange);
+watch(checkboxString, checkboxChange);
+//       export default {
+// data() {
+//   return {
+//     radioValue: 1,
+//     cycle01: 1,
+//     cycle02: 2,
+//     average01: 0,
+//     average02: 1,
+//     checkboxList: [],
+//     checkNum: this.$props.check,
+//   };
+// },
+// name: "crontab-min",
+// props: ["check", "cron"],
+// methods: {
+//   // 单选按钮值变化时
+//   radioChange() {
+//     switch (this.radioValue) {
+//       case 1:
+//         this.$emit("update", "min", "*", "min");
+//         break;
+//       case 2:
+//         this.$emit("update", "min", this.cycleTotal, "min");
+//         break;
+//       case 3:
+//         this.$emit("update", "min", this.averageTotal, "min");
+//         break;
+//       case 4:
+//         this.$emit("update", "min", this.checkboxString, "min");
+//         break;
+//     }
+//   },
+//   // 周期两个值变化时
+//   cycleChange() {
+//     if (this.radioValue == "2") {
+//       this.$emit("update", "min", this.cycleTotal, "min");
+//     }
+//   },
+//   // 平均两个值变化时
+//   averageChange() {
+//     if (this.radioValue == "3") {
+//       this.$emit("update", "min", this.averageTotal, "min");
+//     }
+//   },
+//   // checkbox值变化时
+//   checkboxChange() {
+//     if (this.radioValue == "4") {
+//       this.$emit("update", "min", this.checkboxString, "min");
+//     }
+//   },
+// },
+// watch: {
+//   radioValue: "radioChange",
+//   cycleTotal: "cycleChange",
+//   averageTotal: "averageChange",
+//   checkboxString: "checkboxChange",
+// },
+// computed: {
+//   // 计算两个周期值
+//   cycleTotal: function () {
+//     const cycle01 = this.checkNum(this.cycle01, 0, 58);
+//     const cycle02 = this.checkNum(
+//       this.cycle02,
+//       cycle01 ? cycle01 + 1 : 1,
+//       59
+//     );
+//     return cycle01 + "-" + cycle02;
+//   },
+//   // 计算平均用到的值
+//   averageTotal: function () {
+//     const average01 = this.checkNum(this.average01, 0, 58);
+//     const average02 = this.checkNum(this.average02, 1, 59 - average01 || 0);
+//     return average01 + "/" + average02;
+//   },
+//   // 计算勾选的checkbox值合集
+//   checkboxString: function () {
+//     let str = this.checkboxList.join();
+//     return str == "" ? "*" : str;
+//   },
+// },
+// };
 </script>

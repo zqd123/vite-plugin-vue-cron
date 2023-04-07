@@ -117,9 +117,10 @@ import CrontabSecond from "./secondCopy.vue";
 import CrontabMin from "./minCopy.vue";
 import CrontabHour from "./hourCopy.vue";
 import CrontabDay from "./dayCopy.vue";
-import CrontabMonth from "./month.vue";
-import CrontabWeek from "./week.vue";
-import CrontabYear from "./year.vue";
+import CrontabMonth from "./monthCopy.vue";
+import CrontabWeek from "./weekCopy.vue";
+import CrontabYear from "./yearCopy.vue";
+//TODO:转vue3.2
 import CrontabResult from "./result.vue";
 import { computed, onMounted, ref, watch } from "vue";
 enum Names {
