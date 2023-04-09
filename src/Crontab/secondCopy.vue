@@ -128,91 +128,10 @@ watch(radioValue, radioChange);
 watch(cycleTotal, cycleChange);
 watch(averageTotal, averageChange);
 watch(checkboxString, checkboxChange);
-watch(props.radioParent, () => {
-  radioValue.value = props.radioParent;
-});
-// export default {
-//   data() {
-//     return {
-//       radioValue: 1,
-//       cycle01: 1,
-//       cycle02: 2,
-//       average01: 0,
-//       average02: 1,
-//       checkboxList: [],
-//       checkNum: this.$props.check,
-//     };
-//   },
-//   name: "crontab-second",
-//   props: ["check", "radioParent"],
-//   methods: {
-//     // 单选按钮值变化时
-//     radioChange() {
-//       switch (this.radioValue) {
-//         case 1:
-//           this.$emit("update", "second", "*", "second");
-//           break;
-//         case 2:
-//           this.$emit("update", "second", this.cycleTotal);
-//           break;
-//         case 3:
-//           this.$emit("update", "second", this.averageTotal);
-//           break;
-//         case 4:
-//           this.$emit("update", "second", this.checkboxString);
-//           break;
-//       }
-//     },
-//     // 周期两个值变化时
-//     cycleChange() {
-//       if (this.radioValue == "2") {
-//         this.$emit("update", "second", this.cycleTotal);
-//       }
-//     },
-//     // 平均两个值变化时
-//     averageChange() {
-//       if (this.radioValue == "3") {
-//         this.$emit("update", "second", this.averageTotal);
-//       }
-//     },
-//     // checkbox值变化时
-//     checkboxChange() {
-//       if (this.radioValue == "4") {
-//         this.$emit("update", "second", this.checkboxString);
-//       }
-//     },
-//   },
-//   watch: {
-//     radioValue: "radioChange",
-//     cycleTotal: "cycleChange",
-//     averageTotal: "averageChange",
-//     checkboxString: "checkboxChange",
-//     radioParent() {
-//       this.radioValue = this.radioParent;
-//     },
-//   },
-//   computed: {
-//     // 计算两个周期值
-//     cycleTotal: function () {
-//       const cycle01 = this.checkNum(this.cycle01, 0, 58);
-//       const cycle02 = this.checkNum(
-//         this.cycle02,
-//         cycle01 ? cycle01 + 1 : 1,
-//         59
-//       );
-//       return cycle01 + "-" + cycle02;
-//     },
-//     // 计算平均用到的值
-//     averageTotal: function () {
-//       const average01 = this.checkNum(this.average01, 0, 58);
-//       const average02 = this.checkNum(this.average02, 1, 59 - average01 || 0);
-//       return average01 + "/" + average02;
-//     },
-//     // 计算勾选的checkbox值合集
-//     checkboxString: function () {
-//       let str = this.checkboxList.join();
-//       return str == "" ? "*" : str;
-//     },
-//   },
-// };
+watch(
+  () => props.radioParent,
+  () => {
+    radioValue.value = props.radioParent;
+  }
+);
 </script>
