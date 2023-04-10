@@ -92,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref, unref, watch } from "vue";
 //=======================** emit **===================================//
 const emit = defineEmits(["update"]);
 //=======================** props **===================================//
@@ -141,24 +141,24 @@ const weekList = ref([
     value: "星期日",
   },
 ]);
-const checkNum = props.check;
+const checkNum = unref(props.check);
 //=======================** computed **===================================//
 // 计算两个周期值
 const cycleTotal = computed(() => {
-  cycle01.value = checkNum(cycle01.value, 1, 7);
-  cycle02.value = checkNum(cycle02.value, 1, 7);
-  return cycle01.value + "-" + cycle02.value;
+  const _cycle01 = checkNum(cycle01.value, 1, 7);
+  const _cycle02 = checkNum(cycle02.value, 1, 7);
+  return _cycle01 + "-" + _cycle02;
 });
 // 计算平均用到的值
 const averageTotal = computed(() => {
-  average01.value = checkNum(average01.value, 1, 4);
-  average02.value = checkNum(average02.value, 1, 7);
-  return average02.value + "#" + average01.value;
+  const _average01 = checkNum(average01.value, 1, 4);
+  const _average02 = checkNum(average02.value, 1, 7);
+  return _average01 + "#" + _average02;
 });
 // 最近的工作日（格式）
 const weekdayCheck = computed(() => {
-  weekday.value = checkNum(weekday.value, 1, 7);
-  return weekday.value;
+  const _weekday = checkNum(weekday.value, 1, 7);
+  return _weekday;
 });
 // 计算勾选的checkbox值合集
 const checkboxString = computed(() => {
