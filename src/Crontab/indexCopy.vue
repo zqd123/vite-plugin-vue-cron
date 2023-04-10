@@ -121,7 +121,7 @@ import CrontabMonth from "./monthCopy.vue";
 import CrontabWeek from "./weekCopy.vue";
 import CrontabYear from "./yearCopy.vue";
 import CrontabResult from "./resultCopy.vue";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, ref, unref, watch } from "vue";
 enum Names {
   "second",
   "min",
@@ -196,7 +196,7 @@ const shouldHide = (key: string) => {
   return true;
 };
 /** 反解析cron表达式*/
-const resolveExp = <T extends CrontabValueObj, K extends keyof T>() => {
+const resolveExp = () => {
   if (props.expression) {
     let arr = props.expression.split(" ");
     if (arr.length >= 6) {
@@ -230,7 +230,8 @@ const tabCheck = (index: number) => {
 // 由子组件触发，更改表达式组成的字段值
 const updateCrontabValue = (name: string, value: any, from: any) => {
   // "updateCrontabValue", name, value, from;
-  crontabValueObj.value[name as keyof typeof crontabValueObj.value] = value;
+  crontabValueObj.value[name as keyof typeof crontabValueObj.value] =
+    unref(value);
   if (from && from !== name) {
     // console.log(`来自组件 ${from} 改变了 ${name} ${value}`);
     changeRadio(name, value);
@@ -241,8 +242,8 @@ const updateCrontabValue = (name: string, value: any, from: any) => {
 const changeRadio = (name: string, value: any) => {
   let arr = ["second", "min", "hour", "month"],
     refName = "cron" + name,
-    insValue,
-    refInstance: any;
+    insValue: number = 1,
+    refInstance: any = null;
   switch (name) {
     case "second":
       refInstance = cronsecond;
@@ -278,15 +279,15 @@ const changeRadio = (name: string, value: any) => {
       let indexArr = value.split("-");
       isNaN(indexArr[0])
         ? (refInstance.value.cycle01 = 0)
-        : (refInstance.value.cycle01 = indexArr[0]);
-      refInstance.value.cycle02 = indexArr[1];
+        : (refInstance.value.cycle01 = Number(indexArr[0]));
+      refInstance.value.cycle02 = Number(indexArr[1]);
       insValue = 2;
     } else if (value.indexOf("/") > -1) {
       let indexArr = value.split("/");
       isNaN(indexArr[0])
         ? (refInstance.value.average01 = 0)
-        : (refInstance.value.average01 = indexArr[0]);
-      refInstance.value.average02 = indexArr[1];
+        : (refInstance.value.average01 = Number(indexArr[0]));
+      refInstance.value.average02 = Number(indexArr[1]);
       insValue = 3;
     } else {
       insValue = 4;
@@ -301,21 +302,21 @@ const changeRadio = (name: string, value: any) => {
       let indexArr = value.split("-");
       isNaN(indexArr[0])
         ? (refInstance.value.cycle01 = 0)
-        : (refInstance.value.cycle01 = indexArr[0]);
-      refInstance.value.cycle02 = indexArr[1];
+        : (refInstance.value.cycle01 = Number(indexArr[0]));
+      refInstance.value.cycle02 = Number(indexArr[1]);
       insValue = 3;
     } else if (value.indexOf("/") > -1) {
       let indexArr = value.split("/");
       isNaN(indexArr[0])
         ? (refInstance.value.average01 = 0)
-        : (refInstance.value.average01 = indexArr[0]);
-      refInstance.value.average02 = indexArr[1];
+        : (refInstance.value.average01 = Number(indexArr[0]));
+      refInstance.value.average02 = Number(indexArr[1]);
       insValue = 4;
     } else if (value.indexOf("W") > -1) {
       let indexArr = value.split("W");
       isNaN(indexArr[0])
         ? (refInstance.value.workday = 0)
-        : (refInstance.value.workday = indexArr[0]);
+        : (refInstance.value.workday = Number(indexArr[0]));
       insValue = 5;
     } else if (value === "L") {
       insValue = 6;
@@ -339,14 +340,14 @@ const changeRadio = (name: string, value: any) => {
       let indexArr = value.split("#");
       isNaN(indexArr[0])
         ? (refInstance.value.average01 = 1)
-        : (refInstance.value.average01 = indexArr[0]);
-      refInstance.value.average02 = indexArr[1];
+        : (refInstance.value.average01 = Number(indexArr[0]));
+      refInstance.value.average02 = Number(indexArr[1]);
       insValue = 4;
     } else if (value.indexOf("L") > -1) {
       let indexArr = value.split("L");
       isNaN(indexArr[0])
         ? (refInstance.value.weekday = 1)
-        : (refInstance.value.weekday = indexArr[0]);
+        : (refInstance.value.weekday = Number(indexArr[0]));
       insValue = 5;
     } else {
       refInstance.value.checkboxList = value.split(",");
@@ -358,8 +359,18 @@ const changeRadio = (name: string, value: any) => {
     } else if (value == "*") {
       insValue = 2;
     } else if (value.indexOf("-") > -1) {
+      let indexArr = value.split("-");
+      isNaN(indexArr[0])
+        ? (refInstance.value.cycle01 = 0)
+        : (refInstance.value.cycle01 = Number(indexArr[0]));
+      refInstance.value.cycle02 = Number(indexArr[1]);
       insValue = 3;
     } else if (value.indexOf("/") > -1) {
+      let indexArr = value.split("/");
+      isNaN(indexArr[0])
+        ? (refInstance.value.average01 = 0)
+        : (refInstance.value.average01 = Number(indexArr[0]));
+      refInstance.value.average02 = Number(indexArr[1]);
       insValue = 4;
     } else {
       refInstance.value.checkboxList = value.split(",");
@@ -369,7 +380,7 @@ const changeRadio = (name: string, value: any) => {
   refInstance.value.radioValue = insValue;
 };
 /**表单选项的子组件校验数字格式（通过-props传递） */
-const checkNumber = (value: any, minLimit: any, maxLimit: any) => {
+const checkNumber = (value: number, minLimit: number, maxLimit: number) => {
   // 检查必须为整数
   value = Math.floor(value);
   if (value < minLimit) {
@@ -392,7 +403,6 @@ const submitFill = () => {
 /**还原cron默认值 */
 const clearCron = () => {
   // 还原选择项
-  ("准备还原");
   crontabValueObj.value = {
     second: "*",
     min: "*",

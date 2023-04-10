@@ -73,19 +73,23 @@ const checkNum = props.check;
 /**计算两个周期值 */
 const cycleTotal = computed(() => {
   const _cycle01 = checkNum(cycle01.value, 0, 58);
-  const _cycle02 = checkNum(cycle02.value, cycle01 ? _cycle01 + 1 : 1, 59);
+  const _cycle02 = checkNum(
+    cycle02.value,
+    _cycle01 ? Number(_cycle01) + 1 : 1,
+    59
+  );
   return _cycle01 + "-" + _cycle02;
 });
 // 计算平均用到的值
 const averageTotal = computed(() => {
   const _average01 = checkNum(average01.value, 0, 58);
-  const _average02 = checkNum(average02.value, 1, 59 - _average01 || 0);
+  const _average02 = checkNum(average02.value, 1, 59 - Number(_average01) || 0);
   return _average01 + "/" + _average02;
 });
 // 计算勾选的checkbox值合集
 const checkboxString = computed(() => {
   let str = checkboxList.value.join();
-  return str == "" ? "*" : str;
+  return str === "" ? "*" : str;
 });
 //=======================** methods **===================================//
 /**单选按钮值变化时 */
@@ -95,35 +99,35 @@ const radioChange = () => {
       emit("update", "second", "*", "second");
       break;
     case 2:
-      emit("update", "second", cycleTotal);
+      emit("update", "second", cycleTotal.value);
       break;
     case 3:
-      emit("update", "second", averageTotal);
+      emit("update", "second", averageTotal.value);
       break;
     case 4:
-      emit("update", "second", checkboxString);
+      emit("update", "second", checkboxString.value);
       break;
   }
 };
 /**周期两个值变化时 */
 const cycleChange = () => {
   if (radioValue.value === 2) {
-    emit("update", "second", cycleTotal);
+    emit("update", "second", cycleTotal.value);
   }
 };
 /**平均两个值变化时 */
 const averageChange = () => {
   if (radioValue.value === 3) {
-    emit("update", "second", averageTotal);
+    emit("update", "second", averageTotal.value);
   }
 };
 /**checkbox值变化时 */
 const checkboxChange = () => {
-  if (radioValue.value == 4) {
-    emit("update", "second", checkboxString);
+  if (radioValue.value === 4) {
+    emit("update", "second", checkboxString.value);
   }
 };
-//=======================** methods **===================================//
+//=======================** watch **===================================//
 watch(radioValue, radioChange);
 watch(cycleTotal, cycleChange);
 watch(averageTotal, averageChange);
@@ -134,4 +138,13 @@ watch(
     radioValue.value = props.radioParent;
   }
 );
+//=======================** 导出（父组件访问） **===================================//
+defineExpose({
+  radioValue,
+  cycle01,
+  cycle02,
+  average01,
+  average02,
+  checkboxList,
+});
 </script>

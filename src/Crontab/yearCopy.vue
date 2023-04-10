@@ -81,12 +81,18 @@ const checkNum = props.check;
 // 计算两个周期值
 const cycleTotal = computed(() => {
   const _cycle01 = checkNum(cycle01.value, fullYear.value, 2098);
-  const _cycle02 = checkNum(
+  // const _cycle02 = checkNum(
+  //   Number(cycle02.value),
+  //   _cycle01 ? Number(_cycle01) + 1 : fullYear.value + 1,
+  //   2099
+  // );
+  // return _cycle01 + "-" + _cycle02;
+  cycle02.value = checkNum(
     cycle02.value,
     _cycle01 ? _cycle01 + 1 : fullYear.value + 1,
     2099
   );
-  return _cycle01 + "-" + _cycle02;
+  return _cycle01 + "-" + cycle02.value;
 });
 // 计算平均用到的值
 const averageTotal = computed(() => {
@@ -139,7 +145,7 @@ const averageChange = () => {
 };
 // checkbox值变化时
 const checkboxChange = () => {
-  if (radioValue.value == 5) {
+  if (radioValue.value === 5) {
     emit("update", "year", checkboxString.value);
   }
 };
@@ -153,6 +159,17 @@ onMounted(() => {
   // 仅获取当前年份
   fullYear.value = Number(new Date().getFullYear());
   cycle01.value = fullYear.value;
+  // cycle01.value = cycle01.value || fullYear.value;
   average01.value = fullYear.value;
+});
+//=======================** 导出（父组件访问） **===================================//
+defineExpose({
+  fullYear,
+  radioValue,
+  cycle01,
+  cycle02,
+  average01,
+  average02,
+  checkboxList,
 });
 </script>

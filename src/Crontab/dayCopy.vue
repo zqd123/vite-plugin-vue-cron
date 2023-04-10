@@ -174,4 +174,14 @@ watch(cycleTotal, cycleChange);
 watch(averageTotal, averageChange);
 watch(workdayCheck, workdayChange);
 watch(checkboxString, checkboxChange);
+//=======================** 导出（父组件访问） **===================================//
+defineExpose({
+  radioValue,
+  cycle01,
+  cycle02,
+  workday,
+  average01,
+  average02,
+  checkboxList,
+});
 </script>
